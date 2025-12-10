@@ -156,6 +156,10 @@ Name: proportion, dtype: float64
 
 ![Proportion of Player to Seasons by Team](https://github.com/mahinkat/CMSC320_Final/blob/main/img1320.png?raw=true)
 
+After cleaning up this dataset, we can see that this data set is very robust set that has uniformity with unique player season entries. This will allow us to pick and choose a healthy variety of ways to view the data and analyze it due to the large amounts of data provided.
+
+One fear I had going into this data set is that the teams would not be represented fairly, with some overpowering the others. After analyzing the statistics of team counts, it seems they all ballpark around the same amount as the standard deviation is a relatively low number. The only outlier we can see is NOH, and this is due to the relocation of a franchise from New Orleans to Charlotte around 2011/2012 but is easy to deal with as we can either cut that data or add it to the Charlotte Hornets.
+
 **Summary:**
 The analysis reveals relatively balanced player distribution across all 31 NBA teams represented in the dataset. On average, each team accounts for approximately 3.23% of the total player-seasons, with a standard deviation of 0.56%. The minimum proportion is 0.27% and the maximum is 3.69%, indicating that while most teams have similar representation, there is some variation. This balanced distribution is important for ensuring that our subsequent analyses and clustering algorithms are not biased toward any particular team.
 
