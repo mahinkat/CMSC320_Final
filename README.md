@@ -282,6 +282,7 @@ plt.show()
 **Hypotheses:**
 - **Null Hypothesis (H₀):** There is no statistically significant difference in the mean points scored per player among all the different teams.
 - **Alternative Hypothesis (H₁):** There is a statistically significant difference in the mean points scored per player for at least one team compared to the others.
+
 ```python
 import scipy.stats as stats
 
