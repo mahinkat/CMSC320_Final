@@ -1,4 +1,4 @@
-# Player Archetype Analysis
+<img width="989" height="790" alt="image" src="https://github.com/user-attachments/assets/da8e0f1b-2eae-49ab-8b74-5d6a2d6cc019" /># Player Archetype Analysis
 **Fall 2025 Data Science Project**  
 **Team Members:** Jayden L., Richeek T., Nathan H., Mahin K. Owen, Alex Y.
 
@@ -397,8 +397,6 @@ Overall mean points: 494.86
 
 ---
 
----
-
 ## Primary Analysis
 
 In this step of the data science process, we aim to build and train a predictive model to help us learn and predict what a player's archetype is likely to be. We chose to perform the Elbow Method, which involves optimal clustering in K-Means. Our objective is to see whether we can predict what role a player is likely to take on given their historical performance statistics.
@@ -538,5 +536,142 @@ Based on the cluster statistics, we can identify four distinct player archetypes
 - The largest groups are bench players (Cluster 0) and solid starters (Cluster 3), which aligns with typical NBA roster composition
 - Elite players (Cluster 1) represent only about 12% of the dataset, which is consistent with the rarity of superstar talent
 - Specialized big men (Cluster 2) form the smallest impact group, reflecting the evolution of positionless basketball in the modern NBA
+
+---
+
+## Feature Selection and Scaling
+
+The dataset has already been reloaded and preprocessed in the previous step. The features `PTS`, `AST`, `REB`, `STL`, `BLK`, and `FG_PCT` were selected for clustering, standardized using `StandardScaler`, and then dimensionality reduction was applied using `PCA` with `n_components=4`. The resulting scaled and PCA-transformed data (`X_scaled` and `X_pca`) are ready for calculating the Silhouette Score.
+
+### Calculate Silhouette Score
+
+```python
+from sklearn.metrics import silhouette_score
+from sklearn.cluster import KMeans
+
+# Apply K-Means Clustering (K=4) to create the 'Cluster' column
+kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)
+df['Cluster'] = kmeans.fit_predict(X_scaled)
+
+# Calculate the Silhouette Score
+silhouette_avg = silhouette_score(X_scaled, df['Cluster'])
+
+print(f"The Silhouette Score for the K-Means clustering (k=4) is: {silhouette_avg:.4f}")
+```
+
+**Output:**
+```
+The Silhouette Score for the K-Means clustering (k=4) is: 0.3103
+```
+
+**Interpretation:** The Silhouette Score of 0.3103 indicates a moderate level of separation and cohesion among the clusters. While this is not a perfect score (which would be close to 1.0), it suggests that the clusters are reasonably well-defined with some overlap. This score is acceptable for real-world sports data, where player roles often exist on a continuum rather than in discrete categories. The moderate score reflects the reality that some players exhibit characteristics of multiple archetypes.
+
+---
+
+## Visualize Clusters in PCA Space
+
+Here we create a scatter plot using the first two principal components, with points colored according to their assigned K-Means cluster, to visually inspect the separation and distribution of the player archetypes.
+
+```python
+plt.figure(figsize=(10, 8))
+sns.scatterplot(
+    x=X_pca[:, 0],
+    y=X_pca[:, 1],
+    hue=df['Cluster'],
+    palette='viridis',
+    legend='full'
+)
+
+# Map cluster numbers to archetype labels for the legend
+archetype_map_for_legend = {str(k): v for k, v in archetype_map.items()}
+
+handles, labels = plt.gca().get_legend_handles_labels()
+new_labels = [archetype_map_for_legend.get(label, label) for label in labels]
+plt.legend(handles=handles, labels=new_labels, title='Player Archetype', loc='best')
+
+plt.title('K-Means Clusters in PCA Space')
+plt.xlabel('Overall Statistical Impact')
+plt.ylabel('Contribution Focus (Higher values: Perimeter Play; Lower values: Interior Play)')
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+**Visualization:**
+
+![K-Means Clusters in PCA Space](https://github.com/mahinkat/CMSC320_Final/blob/main/cmsc6.png?raw=true)
+
+**Interpretation:** The scatter plot in PCA-reduced space reveals distinct groupings of the four player archetypes:
+- The x-axis (PC1) represents overall statistical impact, with elite players to the right and limited-role players to the left
+- The y-axis (PC2) captures the focus of contribution, with positive values indicating perimeter-oriented play (guards/playmakers) and negative values indicating interior play (big men)
+- The visualization confirms reasonable cluster separation while also showing some natural overlap between adjacent archetypes, consistent with the moderate Silhouette Score
+
+---
+
+## Analyze Cluster Characteristics
+
+We will examine the mean values of the original features within each cluster to provide a detailed understanding of what defines each player role.
+
+```python
+# Map the cluster index to archetype names for better readability
+cluster_summary_labeled = cluster_summary.rename(index=archetype_map)
+print(cluster_summary_labeled.round(2))
+```
+
+**Output:**
+```
+                                         PTS     AST     REB    STL    BLK  \
+Limited Role/Fringe Player            119.65   26.30   55.79   9.94   5.93   
+All-Around Guards/Playmakers         1274.22  362.94  353.77  87.04  28.88   
+Defensive Bigs/Interior Specialists   923.07  128.44  583.52  53.34  91.13   
+Secondary Role/Consistent Bench       594.84  121.85  239.66  45.07  24.16   
+
+                                     FG_PCT  Cluster Size  
+Limited Role/Fringe Player             0.41          2792  
+All-Around Guards/Playmakers           0.46           768  
+Defensive Bigs/Interior Specialists    0.54           546  
+Secondary Role/Consistent Bench        0.46          2153  
+```
+
+---
+
+## Data Analysis Summary
+
+### Data Preparation
+The `Regular_Season.csv` dataset was loaded, and unnecessary columns (`Unnamed: 0.1`, `Unnamed: 0`) were removed to ensure data cleanliness.
+
+### Feature Engineering
+Six key numerical features (`PTS`, `AST`, `REB`, `STL`, `BLK`, `FG_PCT`) were selected for clustering, standardized using `StandardScaler`, and then reduced to four principal components using PCA for efficient clustering.
+
+### K-Means Clustering Performance
+K-Means clustering with k=4 was applied, yielding a **Silhouette Score of 0.3103**, indicating a moderate level of separation and cohesion among the clusters. This score is reasonable for sports data where player roles often overlap.
+
+### Cluster Visualizations
+A scatter plot in the PCA-reduced space visually represented the four identified player archetypes, confirming their distribution and showing clear groupings with some expected overlap.
+
+### Player Archetype Characteristics (Based on Mean Statistics)
+
+#### Cluster 0: 'Limited Role/Fringe Player' (2,792 players - 44.6%)
+- **Statistics:** 119.65 PTS, 26.30 AST, 55.79 REB, 9.94 STL, 5.93 BLK, 0.41 FG_PCT
+- **Interpretation:** Characterized by very low average statistics across all categories. This group likely represents players with minimal on-court impact or limited playing time, including end-of-bench players, injured players with limited games, and rookies still developing.
+
+#### Cluster 1: 'All-Around Guards/Playmakers' (768 players - 12.3%)
+- **Statistics:** 1,274.22 PTS, 362.94 AST, 353.77 REB, 87.04 STL, 28.88 BLK, 0.46 FG_PCT
+- **Interpretation:** Exhibits significantly higher averages in points, assists, rebounds, and steals, with a moderate field goal percentage. This cluster represents primary offensive contributors, franchise players, and well-rounded All-Stars who excel across multiple statistical categories.
+
+#### Cluster 2: 'Defensive Bigs/Interior Specialists' (546 players - 8.7%)
+- **Statistics:** 923.07 PTS, 128.44 AST, 583.52 REB, 53.34 STL, 91.13 BLK, 0.54 FG_PCT
+- **Interpretation:** Defined by high average rebounds and blocks, alongside the **highest field goal percentage (54%)**. This cluster likely comprises centers and power forwards who excel at rebounding, shot-blocking, and scoring efficiently near the basket. Their low assist numbers reflect their interior-focused role.
+
+#### Cluster 3: 'Secondary Role/Consistent Bench' (2,153 players - 34.4%)
+- **Statistics:** 594.84 PTS, 121.85 AST, 239.66 REB, 45.07 STL, 24.16 BLK, 0.46 FG_PCT
+- **Interpretation:** Shows moderate averages across statistics compared to Clusters 1 and 2. This group likely consists of quality role players, reliable bench contributors, and lower-tier starters who provide consistent production without specializing in any particular area. They are the "glue guys" essential for team depth.
+
+### Key Findings
+- The clustering successfully identified four meaningful and interpretable player archetypes
+- Distribution is realistic: most players are role/bench players (79%), while elite players are rare (12.3%)
+- Defensive specialists (8.7%) are the smallest group, reflecting modern basketball's emphasis on versatile players
+- The highest shooting efficiency belongs to interior specialists, validating the advantage of close-range shots
+- The moderate Silhouette Score reflects the natural continuum of player skills rather than perfectly discrete categories
 
 ---
