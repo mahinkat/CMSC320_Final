@@ -396,3 +396,147 @@ Overall mean points: 494.86
 - The result makes basketball sense: players who get more playing time (typically starters) have more opportunities to accumulate both defensive stats (steals and blocks) and points
 
 ---
+
+---
+
+## Primary Analysis
+
+In this step of the data science process, we aim to build and train a predictive model to help us learn and predict what a player's archetype is likely to be. We chose to perform the Elbow Method, which involves optimal clustering in K-Means. Our objective is to see whether we can predict what role a player is likely to take on given their historical performance statistics.
+
+### Import Libraries and Prepare Data
+
+First, let's import essential libraries and re-add/clean the data to have a fresh base to start with.
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Statistical Tests
+from scipy.stats import chi2_contingency
+import scipy.stats as stats
+from statsmodels.stats.weightstats import ztest
+
+# K-Elbow Visualization
+from scipy.spatial.distance import cdist
+
+# Classification and Clustering
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+
+# Load and clean data
+df = pd.read_csv('/content/drive/MyDrive/CMSC320 Final Portfolio/nba_data/Regular_Season.csv')
+df = df.drop(columns=['Unnamed: 0.1', 'Unnamed: 0'])
+```
+
+### Elbow Method and Standardization
+
+```python
+# --- K-Means: Determining the Optimal Number of Clusters (K) ---
+
+# 1. Select and Standardize Features
+clustering_features = ['PTS', 'AST', 'REB', 'STL', 'BLK', 'FG_PCT']
+X_cluster = df[clustering_features]
+seed = 0
+
+# Standardize the data
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_cluster)
+
+# Apply Principal Component Analysis and return the transformed data
+def apply_pca(X_scaled, n_components):
+    # Fit the PCA model
+    pca = PCA(n_components=n_components, random_state=seed)
+    X_pca = pca.fit_transform(X_scaled)
+    
+    return pca, X_pca
+
+# Apply PCA
+n_components = 4
+pca, X_pca = apply_pca(X_scaled, n_components)
+
+# 3. Visualizing the Elbow
+# Store distortion values
+distortions = []
+K = range(1, 10)
+# Hold key-pair values for k values and their respective distortion value
+kmap = {}
+
+# Loop through each K value from 1-10
+for k in K:
+    # Create a K-Mean model and fit it using X_pca data
+    k_mean = KMeans(n_clusters=k, random_state=seed)
+    k_mean.fit(X_pca)
+    
+    # Calculate the mean distortion for each K-value and add it to the map
+    euclidean_dist = cdist(X_pca, k_mean.cluster_centers_, "Euclidean") ** 2
+    k_dist = sum(np.min(euclidean_dist, axis=1)) / X_pca.shape[0]
+    distortions.append(k_dist)
+    kmap[k] = k_dist
+
+# Plot the elbow curve
+plt.plot(K, distortions, 'bx-')
+plt.xlabel('K-values')
+plt.ylabel('Distortion')
+plt.title('The Elbow Method for K-Mean Clustering')
+plt.show()
+```
+
+**Visualization:**
+
+![The Elbow Method for K-Mean Clustering](https://github.com/mahinkat/CMSC320_Final/blob/main/cmsc5.png?raw=true)
+
+**Interpretation:** This plot helps us determine the best size of K for the clustering analysis. We chose K=4 as we can see that is where the bend begins (the "elbow"). At this point, adding more clusters doesn't significantly reduce the distortion, indicating that 4 clusters provide a good balance between model complexity and clustering quality. The elbow represents the point of diminishing returns in variance explanation.
+
+### K-Means Clustering
+
+Here we are going to apply the K-Means clustering and analyze the four generated clusters into statistics relating to the data set to see the similarities.
+
+```python
+# Apply K-Means Clustering (K=4)
+kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)
+df['Cluster'] = kmeans.fit_predict(X_scaled)
+
+# Analyze Cluster Centers
+cluster_centers_scaled = kmeans.cluster_centers_
+cluster_centers_original = scaler.inverse_transform(cluster_centers_scaled)
+cluster_summary = pd.DataFrame(cluster_centers_original, columns=clustering_features)
+cluster_summary['Cluster Size'] = df['Cluster'].value_counts().sort_index()
+
+# Display the summary table, here we can analyze the key standout features for each archetype
+print(cluster_summary.round(2))
+```
+
+**Output:**
+```
+        PTS     AST     REB    STL    BLK  FG_PCT  Cluster Size
+0    119.65   26.30   55.79   9.94   5.93    0.41          2792
+1   1274.22  362.94  353.77  87.04  28.88    0.46           768
+2    923.07  128.44  583.52  53.34  91.13    0.54           546
+3    594.84  121.85  239.66  45.07  24.16    0.46          2153
+```
+
+**Cluster Interpretations:**
+
+Based on the cluster statistics, we can identify four distinct player archetypes:
+
+- **Cluster 0 - Bench/Role Players (n=2,792):** The largest cluster with very low statistics across all categories (119.65 PTS, 26.30 AST, 55.79 REB). These are likely bench players or those with limited playing time who contribute minimally in all areas. Lower shooting efficiency (41%) suggests less skilled or less experienced players.
+
+- **Cluster 1 - Elite All-Around Stars (n=768):** Players with exceptional statistics in all categories (1,274.22 PTS, 362.94 AST, 353.77 REB, 87.04 STL). These are likely MVP-caliber players and All-Stars who excel at scoring, playmaking, and contributing across the board. This is the smallest cluster of impact players, representing the league's elite.
+
+- **Cluster 2 - Dominant Big Men/Centers (n=546):** High rebounds (583.52) and blocks (91.13) with excellent shooting efficiency (54%) but lower assists (128.44). These are likely traditional centers and power forwards who dominate in the paint, protect the rim, and score efficiently near the basket.
+
+- **Cluster 3 - Solid Starters/Role Players (n=2,153):** Moderate statistics across all categories (594.84 PTS, 121.85 AST, 239.66 REB). These are likely consistent starters or high-level role players who contribute meaningfully but don't reach All-Star levels. They represent the league's reliable "glue guys."
+
+**Key Insights:**
+- The clustering successfully separated players into meaningful basketball archetypes based on their statistical profiles
+- The largest groups are bench players (Cluster 0) and solid starters (Cluster 3), which aligns with typical NBA roster composition
+- Elite players (Cluster 1) represent only about 12% of the dataset, which is consistent with the rarity of superstar talent
+- Specialized big men (Cluster 2) form the smallest impact group, reflecting the evolution of positionless basketball in the modern NBA
+
+---
