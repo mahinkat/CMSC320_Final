@@ -260,7 +260,7 @@ plt.show()
 
 **Visualization:**
 
-![Shooting Efficiency by Playing Time]([visualization-placeholder](https://github.com/mahinkat/CMSC320_Final/blob/main/img2320.png?raw=true))
+![Shooting Efficiency by Playing Time]([https://github.com/mahinkat/CMSC320_Final/blob/main/img2320.png?raw=true])
 
 **Key Insights:**
 - The chi-squared statistic of 236.65 with 4 degrees of freedom indicates a very strong association between the two variables
