@@ -327,3 +327,72 @@ plt.show()
 - For fantasy basketball and betting purposes, this indicates that team selection should not be a primary factor when evaluating a player's scoring potential
 
 ---
+
+### 3. Hypothesis Testing: Z-Test for High-Defense Players Points
+
+**Research Question:** We'll test whether players with high defensive contributions (steals + blocks) score fewer points than the overall player average.
+
+**Hypotheses:**
+- **Null Hypothesis (H₀):** The mean points scored by high-defense players is equal to the overall mean points.
+- **Alternative Hypothesis (H₁):** The mean points scored by high-defense players is less than the overall average.
+
+```python
+import numpy as np
+from statsmodels.stats.weightstats import ztest
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Calculate overall population mean points
+overall_mean = df['PTS'].mean()
+
+# Define defensive score as STL + BLK
+df['DEF_SCORE'] = df['STL'] + df['BLK']
+
+# Identify top 25% defensive players
+threshold = np.percentile(df['DEF_SCORE'], 75)
+high_def_pts = df[df['DEF_SCORE'] >= threshold]['PTS']
+
+# Perform one-sample z-test
+z_stat, p_value = ztest(high_def_pts, value=overall_mean, alternative='smaller')
+
+# Significance level
+alpha = 0.05
+
+# Visualize High-Defense players vs All players
+plt.figure(figsize=(10,6))
+sns.histplot(df['PTS'], bins=30, kde=True, color='gray', label='All Players')
+sns.histplot(high_def_pts, bins=15, kde=True, color='green', label='Top 25% Defense')
+plt.axvline(overall_mean, color='blue', linestyle='--', label='Overall Mean')
+plt.title("Points Distribution: High-Defense Players vs All Players")
+plt.xlabel("Points (PTS)")
+plt.ylabel("Frequency")
+plt.legend()
+plt.show()
+
+print(f"Z-statistic: {z_stat:.4f}")
+print(f"P-value: {p_value:.4f}")
+print(f"Overall mean points: {overall_mean:.2f}")
+```
+
+**Output:**
+```
+Z-statistic: 44.0895
+P-value: 1.0000
+Overall mean points: 494.86
+```
+
+**Visualization:**
+
+![Points Distribution: High-Defense Players vs All Players](https://github.com/mahinkat/CMSC320_Final/blob/main/cmsc4.png?raw=true)
+
+**Conclusion:** From the graph and the p-value (1.0000), which is much greater than α = 0.05, we fail to reject the null hypothesis. High-defense players do not score significantly fewer points than the overall average. In fact, the extremely high positive z-statistic (44.0895) and p-value of 1.0000 indicate that high-defense players actually score MORE points on average than the overall population, which is the opposite of what we hypothesized.
+
+**Key Insights:**
+- The z-statistic of 44.09 is extraordinarily high and positive, suggesting that defensive prowess and scoring ability are positively correlated rather than negatively correlated
+- This counterintuitive finding challenges the common assumption that players specialize in either offense or defense
+- The visualization shows that the distribution of points for high-defense players (green) is shifted to the right compared to all players (gray), confirming they score more points
+- This suggests that elite NBA players tend to excel in multiple aspects of the game, being strong on both offense and defense
+- For fantasy basketball and team building, this indicates that high-defensive players are valuable not just for their defensive stats but also for their offensive contributions
+- The result makes basketball sense: players who get more playing time (typically starters) have more opportunities to accumulate both defensive stats (steals and blocks) and points
+
+---
