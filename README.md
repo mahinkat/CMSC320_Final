@@ -697,4 +697,5 @@ Some future work or potential extensions of this research that we could do is in
 
 ### References 
 Dataset: https://www.kaggle.com/datasets/shivamkumar121215/nba-stats-dataset-for-last-10-years?select=Regular_Season.csv
-Images: https://www.nytimes.com/2021/10/18/sports/basketball/nba-western-conference-preview.html, https://www.seattletimes.com/sports/nba/nba-all-star-game-will-ditch-the-gimmicks-and-return-to-classic-east-versus-west-format/
+
+Basketball Images: https://www.nytimes.com/2021/10/18/sports/basketball/nba-western-conference-preview.html, https://www.seattletimes.com/sports/nba/nba-all-star-game-will-ditch-the-gimmicks-and-return-to-classic-east-versus-west-format/
