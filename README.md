@@ -274,3 +274,55 @@ plt.show()
 - This finding could be useful for fantasy basketball decisions and understanding player value
 
 ---
+
+### 2. Hypothesis Testing: ANOVA on Points Scored by Team
+
+**Research Question:** To investigate if there are statistically significant differences in the average points scored per player across different teams, we will perform a one-way ANOVA test.
+
+**Hypotheses:**
+- **Null Hypothesis (H₀):** There is no statistically significant difference in the mean points scored per player among all the different teams.
+- **Alternative Hypothesis (H₁):** There is a statistically significant difference in the mean points scored per player for at least one team compared to the others.
+```python
+import scipy.stats as stats
+
+# Group points data by team
+team_points = [df[df['TEAM'] == team]['PTS'] for team in df['TEAM'].unique()]
+
+# Perform one-way ANOVA
+f_statistic, p_value = stats.f_oneway(*team_points)
+
+print(f"ANOVA F-statistic: {f_statistic:.4f}")
+print(f"ANOVA p-value: {p_value:.4f}")
+```
+
+**Output:**
+```
+ANOVA F-statistic: 0.6732
+ANOVA p-value: 0.9110
+```
+
+**Conclusion:** The p-value (0.9110) is much greater than the significance level (α = 0.05), so we fail to reject the null hypothesis. This suggests that there is no statistically significant difference in the mean points scored among different teams. The average points scored per player across teams remains relatively uniformly distributed. This finding indicates that team affiliation does not significantly impact individual player scoring averages, suggesting that scoring opportunities and player performance are fairly consistent across the league.
+```python
+# Visualize the distribution of points by team
+plt.figure(figsize=(15, 8))
+df.boxplot(column='PTS', by='TEAM', rot=90)
+plt.title('Distribution of Points Scored per Player by Team')
+plt.xlabel('Team')
+plt.ylabel('Points Scored (PTS)')
+plt.suptitle('')
+plt.tight_layout()
+plt.show()
+```
+
+**Visualization:**
+
+![Distribution of Points Scored per Player by Team](https://github.com/mahinkat/CMSC320_Final/blob/main/cmsc3320.png?raw=true)
+
+**Key Insights:**
+- The F-statistic of 0.6732 is relatively small, indicating minimal variance between team means compared to variance within teams
+- The extremely high p-value (0.9110) provides strong evidence that any observed differences in mean points across teams are due to random chance
+- The box plot visualization confirms this finding, showing similar distributions of player points across all 31 teams
+- This uniformity suggests that the NBA maintains competitive balance, with no team systematically producing higher or lower-scoring players
+- For fantasy basketball and betting purposes, this indicates that team selection should not be a primary factor when evaluating a player's scoring potential
+
+---
