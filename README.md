@@ -183,6 +183,7 @@ We formulated several hypotheses which we were curious about and ran what we fel
 **Hypotheses:**
 - **Null Hypothesis (H₀):** A player's shooting efficiency is independent of their playing time.
 - **Alternative Hypothesis (H₁):** A player's shooting efficiency is NOT independent of their playing time.
+
 ```python
 import pandas as pd
 import numpy as np
