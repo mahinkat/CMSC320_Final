@@ -1,4 +1,4 @@
-<img width="630" height="470" alt="image" src="https://github.com/user-attachments/assets/75804d09-9be0-4285-8221-277d53a0a81e" /># Player Archetype Analysis
+# Player Archetype Analysis
 **Fall 2025 Data Science Project**  
 **Team Members:** Jayden L., Richeek T., Nathan H., Mahin K. Owen, Alex Y.
 
