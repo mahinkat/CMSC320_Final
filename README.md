@@ -1,18 +1,18 @@
 # Player Archetype Analysis
 **Fall 2025 Data Science Project**  
-**Team Members:** Jayden L., Richeek T., Nathan H., Mahin K. Owen S., Alex Y.
+**Team Members:** Jayden L., Richeek T., Nathan H., Mahin K., Owen S., Alex Y.
 
 ---
 
 ## Contributions
 **A: Project Idea:**  
-Richeek, Jayden, Nathan, and Mahin decided on analyzing an NBA dataset.
+Richeek, Jayden, Nathan, and Mahin decided to analyze an NBA dataset.
 
 **B: Dataset Curation and Preprocessing:**  
-Richeek and Jayden converted the dataset into a Pandas dataframe, filtered empty rows, and dropped irrelevant columns.
+Richeek and Jayden converted the dataset into a Pandas dataframe, filtered out empty rows, and dropped irrelevant columns.
 
 **C: Data Exploration and Summary Statistics:**  
-Richeek analyzed simple statistics about the data and their columns. Nathan conducted a chi-Sqaured Test on shooting efficiency and player court time. Owen did an ANOVA on Points Scored by Team. Mahin did the Z-Test for High-Defense Players Points.
+Richeek analyzed simple statistics about the data and its columns. Nathan conducted a chi-Squared Test on shooting efficiency and player court time. Owen did an ANOVA on Points Scored by Team. Mahin did the Z-Test for High-Defense Players' Points.
 
 **D: ML Algorithm Design/Development:**  
 Richeek and Jayden used the elbow method to determine the best k-value to use for K-Means clustering and then handled the K-means cluster modeling using the points, assists, steals, rebounds, blocks, and field goal percentage features.
@@ -21,12 +21,12 @@ Richeek and Jayden used the elbow method to determine the best k-value to use fo
 Nathan and Alex reviewed and tested all ML models, data, and hypothesis testing to ensure correct functionality. Nathan performed data testing and analysis for the K-Means clustering.
 
 **F: Visualization, Result Analysis, Conclusion:**  
-Richeek and Jayden visualized the Elbow method for finding the best k-value for K-Mean Clusteting and the result of the K-Means Clustering. Nathan performed result analysis for the K-Means clustering,  calculating a clustering evaluation metric and visualizing the clusters.
+Richeek and Jayden visualized the Elbow method for finding the best k-value for K-Means Clustering and the result of the K-Means Clustering. Nathan performed result analysis for the K-Means clustering,  calculating a clustering evaluation metric and visualizing the clusters.
 
 **G: Final Tutorial Report Creation:**  
-Jayden wrote the Contributions and Parts of the Introduction, Owen wrote most of introduction and introductions for each step of data science process. Mahin wrote/transferred everything to Github Pages, added key insights to parts of the file, and did the conclusion. 
+Jayden wrote the Contributions and Parts of the Introduction, Owen wrote most of the introduction and introductions for each step of the data science process. Mahin wrote/transferred everything to GitHub Pages, added key insights to parts of the file, and did the conclusion. 
 
-**H: Additional 
+**H: Additional:**  
 
 ---
 
@@ -50,6 +50,7 @@ We downloaded the NBA player data and performance statistics from 2012 to 2023 i
 ## Data Import and Statistical Methods
 
 ### Loading the Dataset
+
 ```python
 from google.colab import drive
 drive.mount('/content/drive')
@@ -401,7 +402,7 @@ Overall mean points: 494.86
 
 ## Primary Analysis
 
-In this step of the data science process, we aim to build and train a predictive model to help us learn and predict what a player's archetype is likely to be. We chose to perform the Elbow Method, which involves optimal clustering in K-Means. Our objective is to see whether we can predict what role a player is likely to take on given their historical performance statistics.
+In this step of the data science process, we aim to build and train a predictive model to help us learn and predict what a player's archetype is likely to be. We chose to perform the Elbow Method, which involves optimal clustering in K-Means. Our objective is to see whether we can predict what role a player is likely to take on, given their historical performance statistics.
 
 ### Import Libraries and Prepare Data
 
@@ -495,7 +496,7 @@ plt.show()
 
 ### K-Means Clustering
 
-Here we are going to apply the K-Means clustering and analyze the four generated clusters into statistics relating to the data set to see the similarities.
+Here, we are going to apply the K-Means clustering and analyze the four generated clusters into statistics relating to the data set to see the similarities.
 
 ```python
 # Apply K-Means Clustering (K=4)
@@ -677,3 +678,9 @@ A scatter plot in the PCA-reduced space visually represented the four identified
 - The moderate Silhouette Score reflects the natural continuum of player skills rather than perfectly discrete categories
 
 ---
+
+### Conclusion
+In conclusion, we found that within the NBA player statistics from the 2012-2023 seasons there were four archetypes that they fall under. Furthermore, throughout the project, we found that we had used a complete data science lifecycle to identify meaningful player archetypes and test fundamental basketball hypotheses. Our project demonstrates how data science methodologies, which we have learned in CMSC320 and have been extensively tested on, can extract actionable insights from complex sports data. Furthermore, from our analysis and results it can provide value for fans like us, analysts, and fantasy basketball enthusiasts. It can even maybe help sports betters too if that is one of your passions. 
+Some overarching key findings that we found was that regarding player archetypes that emerged clearly using K-Means clustering. Using K-Means, we identified four distinct player roles: Elite All-Around Stars (12.3%) who are high-impact players excelling across all statistical categories, Defensive Bigs/Interior Specialists (8.7%) who are rebounding and shot-blocking specialists with high efficiency, Solid Starters/Role Players (34.4%) who are consistent contributors who form team depth, and finally Bench/Role Players (44.6%) who are limited-minute players with minimal statistical impact 2. Now moving onto statistical testing. It revealed that shooting efficiency correlates with playing time. Specifically, starters are significantly more efficient shooters than bench players (p-value: 4.89 × 10⁻⁵⁰). Furthermore, we found that team affiliation doesn't affect scoring by any means where we found that there is no significant difference in points scored across teams (p-value: 0.9110). We think this indicates that across the datasets years the NBA has been relatively equal in terms of competitiveness indicating league-wide competitive balance. Finally, we found that high-defense players excel offensively contrary to popular belief where usually as fans we think defensive specialists don't scare as much but in truth, they actually score MORE points than average (p-value: 1.0000), challenging long-standing myths within the sport. 
+Moving onto clustering validated basketball realities. We found that the distribution of archetypes aligns with NBA roster construction where each team usually has a few elite players, then they also have some specialized roles for big men where they are usually the power forward or center, and a majority of role players supporting team success where they do not have to pay them as much as their stars. Moreover, the moderate silhouette score (0.3103) reflects realism in a lot of ways. This is because of the fact that player skills at least in the modern NBA aren't as rigid where a lot of players in the  present day are positionless, like LeBron. When looking at our analysis in a broader setting, it demonstrates that we can identify player value beyond traditional scouting methods. Furthermore, it can give metrics for fantasy basketball decisions by classifying player roles. Additionally, our analysis can support team-building strategies by understanding archetype distributions and statistical correlations. Our analysis also challenges conventional wisdom through rigorous hypothesis testing. Our project showcases how real-world data can often contain surprises, where it surprised our group even though most of us are avid NBA fans. An example of this would be the positive correlation between defense and scoring where I only found out about this through systematic analysis rather than anecdotal observation. 
+Some future work or potential extensions of this research that we could do is incorporating advanced metrics such as PER, Win Shares, and VORP for more nuanced clustering. Furthermore, we could analyze how player archetypes evolve over careers to see how a player changes as they get older and need to adapt. Finally, we could examine archetype success in different team compositions and even apply this analysis to other sports, too. 
