@@ -695,7 +695,14 @@ Some overarching key findings that we found was that regarding player archetypes
 Moving onto clustering validated basketball realities. We found that the distribution of archetypes aligns with NBA roster construction where each team usually has a few elite players, then they also have some specialized roles for big men where they are usually the power forward or center, and a majority of role players supporting team success where they do not have to pay them as much as their stars. Moreover, the moderate silhouette score (0.3103) reflects realism in a lot of ways. This is because of the fact that player skills at least in the modern NBA aren't as rigid where a lot of players in the  present day are positionless, like LeBron. When looking at our analysis in a broader setting, it demonstrates that we can identify player value beyond traditional scouting methods. Furthermore, it can give metrics for fantasy basketball decisions by classifying player roles. Additionally, our analysis can support team-building strategies by understanding archetype distributions and statistical correlations. Our analysis also challenges conventional wisdom through rigorous hypothesis testing. Our project showcases how real-world data can often contain surprises, where it surprised our group even though most of us are avid NBA fans. An example of this would be the positive correlation between defense and scoring where I only found out about this through systematic analysis rather than anecdotal observation. 
 Some future work or potential extensions of this research that we could do is incorporating advanced metrics such as PER, Win Shares, and VORP for more nuanced clustering. Furthermore, we could analyze how player archetypes evolve over careers to see how a player changes as they get older and need to adapt. Finally, we could examine archetype success in different team compositions and even apply this analysis to other sports, too. 
 
-### References 
-Dataset: https://www.kaggle.com/datasets/shivamkumar121215/nba-stats-dataset-for-last-10-years?select=Regular_Season.csv
+---
 
-Basketball Images: https://www.nytimes.com/2021/10/18/sports/basketball/nba-western-conference-preview.html, https://www.seattletimes.com/sports/nba/nba-all-star-game-will-ditch-the-gimmicks-and-return-to-classic-east-versus-west-format/
+### References 
+**Dataset:**  
+[NBA Stats Dataset for Last 10 Years on Kaggle](https://www.kaggle.com/datasets/shivamkumar121215/nba-stats-dataset-for-last-10-years?select=Regular_Season.csv)
+
+**Images:**  
+- [New York Times - NBA Western Conference Preview](https://www.nytimes.com/2021/10/18/sports/basketball/nba-western-conference-preview.html)
+- [Seattle Times - NBA All-Star Game Format](https://www.seattletimes.com/sports/nba/nba-all-star-game-will-ditch-the-gimmicks-and-return-to-classic-east-versus-west-format/)
+
+---
