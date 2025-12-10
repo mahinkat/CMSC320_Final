@@ -1,4 +1,4 @@
-# Player Archetype Analysis
+<img width="630" height="470" alt="image" src="https://github.com/user-attachments/assets/75804d09-9be0-4285-8221-277d53a0a81e" /># Player Archetype Analysis
 **Fall 2025 Data Science Project**  
 **Team Members:** Jayden L., Richeek T., Nathan H., Mahin K. Owen, Alex Y.
 
@@ -162,5 +162,109 @@ One fear I had going into this data set is that the teams would not be represent
 
 **Summary:**
 The analysis reveals relatively balanced player distribution across all 31 NBA teams represented in the dataset. On average, each team accounts for approximately 3.23% of the total player-seasons, with a standard deviation of 0.56%. The minimum proportion is 0.27% and the maximum is 3.69%, indicating that while most teams have similar representation, there is some variation. This balanced distribution is important for ensuring that our subsequent analyses and clustering algorithms are not biased toward any particular team.
+
+---
+
+---
+
+## Exploratory Data Analysis (EDA)
+
+We formulated several hypotheses which we were curious about and ran what we felt were the most appropriate tests regarding each hypothesis.
+
+### 1. Hypothesis Testing: Chi-Squared Test on Shooting Efficiency and Player Court Time
+
+**Research Question:** Let's examine the data to determine whether shooting efficiency (measured by FG_PCT) is related to a player's position/role on the court. Does a player's playing time correlate to their shooting efficiency?
+
+**Hypotheses:**
+- **Null Hypothesis (H₀):** A player's shooting efficiency is independent of their playing time.
+- **Alternative Hypothesis (H₁):** A player's shooting efficiency is NOT independent of their playing time.
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import chi2_contingency
+
+# Categorize players by minutes played
+min_threshold = df['MIN'].median()
+df['PLAYER_ROLE'] = df['MIN'].apply(lambda x: 'High Minutes (Starter)' if x >= min_threshold else 'Low Minutes (Bench)')
+
+# Categorize players by shooting efficiency
+fg_threshold = df['FG_PCT'].median()
+df['SHOOTING_EFFICIENCY'] = df['FG_PCT'].apply(lambda x: 'Efficient Shooter' if x >= fg_threshold else 'Inefficient Shooter')
+
+print(f"\nMinutes Threshold (Median): {min_threshold:.2f}")
+print(f"Field Goal % Threshold (Median): {fg_threshold:.3f}")
+
+# Create contingency table
+contingency_table = pd.crosstab(
+    df['PLAYER_ROLE'],
+    df['SHOOTING_EFFICIENCY'],
+    margins=True
+)
+print("Contingency Table with Margins:")
+print(contingency_table)
+
+# Perform chi-squared test
+chi2_stat, p_value, dof, expected_freq = chi2_contingency(contingency_table)
+
+print(f"\nChi-Square Statistic: {chi2_stat:.4f}")
+print(f"Degrees of Freedom: {dof}")
+print(f"P-value: {p_value}")
+
+print("\nExpected Frequencies:")
+expected_df = pd.DataFrame(
+    expected_freq,
+    index=contingency_table.index,
+    columns=contingency_table.columns
+)
+print(expected_df)
+```
+
+**Output:**
+```
+Minutes Threshold (Median): 1037.00
+Field Goal % Threshold (Median): 0.441
+Contingency Table with Margins:
+SHOOTING_EFFICIENCY     Efficient Shooter  Inefficient Shooter   All
+PLAYER_ROLE                                                         
+High Minutes (Starter)               1882                 1248  3130
+Low Minutes (Bench)                  1273                 1856  3129
+All                                  3155                 3104  6259
+
+Chi-Square Statistic: 236.6460
+Degrees of Freedom: 4
+P-value: 4.894295649695702e-50
+
+Expected Frequencies:
+SHOOTING_EFFICIENCY     Efficient Shooter  Inefficient Shooter     All
+PLAYER_ROLE                                                           
+High Minutes (Starter)        1577.752037          1552.247963  3130.0
+Low Minutes (Bench)           1577.247963          1551.752037  3129.0
+All                           3155.000000          3104.000000  6259.0
+```
+
+**Conclusion:** From this result, we can see that the p-value (4.89 × 10⁻⁵⁰) is much less than 0.05, so we reject the null hypothesis. We can conclude that there is a statistically significant relationship between playing time and shooting efficiency. Thus, whether a player gets high or low minutes is NOT independent of their shooting efficiency. The contingency table shows that players with high minutes (starters) are more likely to be efficient shooters (1,882 efficient vs 1,248 inefficient), while bench players show the opposite pattern (1,273 efficient vs 1,856 inefficient).
+```python
+# Visualize the relationship
+plt.figure(figsize=(10, 6))
+contingency_table.plot(kind='bar', stacked=True, color=['red', 'blue'])
+plt.title('Shooting Efficiency by Playing Time')
+plt.xlabel('Player Role')
+plt.ylabel('Number of Players')
+plt.xticks(rotation=0)
+plt.legend(title='Shooting Efficiency')
+plt.tight_layout()
+plt.show()
+```
+
+**Visualization:**
+
+![Shooting Efficiency by Playing Time]([visualization-placeholder](https://github.com/mahinkat/CMSC320_Final/blob/main/img2320.png?raw=true))
+
+**Key Insights:**
+- The chi-squared statistic of 236.65 with 4 degrees of freedom indicates a very strong association between the two variables
+- Starters (high minutes) tend to be more efficient shooters, which makes logical sense as coaches typically give more playing time to players who perform better
+- This finding could be useful for fantasy basketball decisions and understanding player value
 
 ---
