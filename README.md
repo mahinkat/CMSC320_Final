@@ -46,7 +46,13 @@ As one of the most-watched sports in the world, there is near constant speculati
 ```python
 from google.colab import drive
 drive.mount('/content/drive')
+```
 
+**Output:**
+```
+Mounted at /content/drive
+```
+```python
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -69,15 +75,53 @@ print("\nFeature Names and Data Types:")
 print(df.info())
 ```
 
-**Dataset Summary:**
-- **Total Entries:** 6,259
-- **Total Features:** 29
-- **Memory Usage:** 1.4+ MB
+**Output:**
+```
+Total Entries: 6259
+Total Features: 29
 
-**Feature Breakdown:**
-- 20 integer features (player IDs, statistics counts)
-- 5 float features (percentages and ratios)
-- 4 object features (year, season type, player name, team)
+Feature Names and Data Types:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 6259 entries, 0 to 6258
+Data columns (total 29 columns):
+ #   Column       Non-Null Count  Dtype  
+---  ------       --------------  -----  
+ 0   year         6259 non-null   object 
+ 1   Season_type  6259 non-null   object 
+ 2   PLAYER_ID    6259 non-null   int64  
+ 3   RANK         6259 non-null   int64  
+ 4   PLAYER       6259 non-null   object 
+ 5   TEAM_ID      6259 non-null   int64  
+ 6   TEAM         6259 non-null   object 
+ 7   GP           6259 non-null   int64  
+ 8   MIN          6259 non-null   int64  
+ 9   FGM          6259 non-null   int64  
+ 10  FGA          6259 non-null   int64  
+ 11  FG_PCT       6259 non-null   float64
+ 12  FG3M         6259 non-null   int64  
+ 13  FG3A         6259 non-null   int64  
+ 14  FG3_PCT      6259 non-null   float64
+ 15  FTM          6259 non-null   int64  
+ 16  FTA          6259 non-null   int64  
+ 17  FT_PCT       6259 non-null   float64
+ 18  OREB         6259 non-null   int64  
+ 19  DREB         6259 non-null   int64  
+ 20  REB          6259 non-null   int64  
+ 21  AST          6259 non-null   int64  
+ 22  STL          6259 non-null   int64  
+ 23  BLK          6259 non-null   int64  
+ 24  TOV          6259 non-null   int64  
+ 25  PF           6259 non-null   int64  
+ 26  PTS          6259 non-null   int64  
+ 27  AST_TOV      6259 non-null   float64
+ 28  STL_TOV      6259 non-null   float64
+dtypes: float64(5), int64(20), object(4)
+memory usage: 1.4+ MB
+None
+```
+
+**Summary:**
+The dataset contains 6,259 player-season entries with 29 features covering the 2012-2023 NBA regular seasons. All columns have complete data (no null values). The features include player identification, team information, and comprehensive box score statistics such as games played (GP), minutes (MIN), field goals made/attempted (FGM/FGA), three-pointers, free throws, rebounds, assists, steals, blocks, turnovers, personal fouls, and points.
 
 #### 2. Player Distribution by Team
 ```python
@@ -96,12 +140,23 @@ plt.tight_layout()
 plt.show()
 ```
 
-**Team Distribution Statistics:**
-- **Count:** 31 teams
-- **Mean proportion:** 0.032258 (approximately 3.23% per team)
-- **Standard deviation:** 0.005623
-- **Range:** 0.002716 to 0.036907
+**Output:**
+```
+Team Counts Statistics:
+count    31.000000
+mean      0.032258
+std       0.005623
+min       0.002716
+25%       0.032433
+50%       0.033072
+75%       0.033791
+max       0.036907
+Name: proportion, dtype: float64
+```
 
-The analysis shows relatively balanced player distribution across all 31 NBA teams, with most teams having between 3.2% and 3.4% of the total player-seasons in the dataset.
+![Proportion of Player to Seasons by Team](visualization-placeholder)
+
+**Summary:**
+The analysis reveals relatively balanced player distribution across all 31 NBA teams represented in the dataset. On average, each team accounts for approximately 3.23% of the total player-seasons, with a standard deviation of 0.56%. The minimum proportion is 0.27% and the maximum is 3.69%, indicating that while most teams have similar representation, there is some variation. This balanced distribution is important for ensuring that our subsequent analyses and clustering algorithms are not biased toward any particular team.
 
 ---
