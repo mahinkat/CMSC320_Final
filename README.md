@@ -1,6 +1,6 @@
 # Player Archetype Analysis
 **Fall 2025 Data Science Project**  
-**Team Members:** Jayden L., Richeek T., Nathan H., Mahin K. Owen, Alex Y.
+**Team Members:** Jayden L., Richeek T., Nathan H., Mahin K. Owen S., Alex Y.
 
 ---
 
@@ -12,19 +12,21 @@ Richeek, Jayden, Nathan, and Mahin decided on analyzing an NBA dataset.
 Richeek and Jayden converted the dataset into a Pandas dataframe, filtered empty rows, and dropped irrelevant columns.
 
 **C: Data Exploration and Summary Statistics:**  
-Richeek analyzed simple statistics. Nathan conducted a chi-squared test on shooting efficiency and player court time. Owen did an ANOVA on Points Scored by Team. Mahin did a Z-Test for High-Defense Players Points.
+Richeek analyzed simple statistics about the data and their columns. Nathan conducted a chi-Sqaured Test on shooting efficiency and player court time. Owen did an ANOVA on Points Scored by Team. Mahin did the Z-Test for High-Defense Players Points.
 
 **D: ML Algorithm Design/Development:**  
-Richeek and Jayden used the elbow method for K-Means clustering on points, assists, steals, rebounds, blocks, and field goal percentage.
+Richeek and Jayden used the elbow method to determine the best k-value to use for K-Means clustering and then handled the K-means cluster modeling using the points, assists, steals, rebounds, blocks, and field goal percentage features.
 
 **E: ML Algorithm Training and Test Data Analysis:**  
-Nathan and Alex reviewed models and data. Nathan performed testing and analysis for K-Means clustering.
+Nathan and Alex reviewed and tested all ML models, data, and hypothesis testing to ensure correct functionality. Nathan performed data testing and analysis for the K-Means clustering.
 
 **F: Visualization, Result Analysis, Conclusion:**  
-Richeek and Jayden visualized the Elbow method and clustering results. Nathan analyzed and visualized clusters.
+Richeek and Jayden visualized the Elbow method for finding the best k-value for K-Mean Clusteting and the result of the K-Means Clustering. Nathan performed result analysis for the K-Means clustering,  calculating a clustering evaluation metric and visualizing the clusters.
 
 **G: Final Tutorial Report Creation:**  
-Jayden wrote the Contributions and Parts of the Introduction.
+Jayden wrote the Contributions and Parts of the Introduction, Owen wrote most of introduction and introductions for each step of data science process. Mahin wrote/transferred everything to Github Pages, added key insights to parts of the file, and did the conclusion. 
+
+**H: Additional 
 
 ---
 
