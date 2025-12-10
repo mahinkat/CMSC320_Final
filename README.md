@@ -40,6 +40,11 @@ As one of the most-watched sports in the world, there is near constant speculati
 
 ---
 
+## Data Collection Process
+The first step of the data science lifecycle involves either gathering or finding gathered data that is relevant to our topic. Because it would take an unrealistic amount of time to gather this information ourselves, we opted to perform secondary data collection, which involves using information already gathered by others. An important consideration we abided by was ensuring that the data originated from a reputable and reliable source, which we were able to find on Kaggle and verify with the NBA's own sources.
+
+We downloaded the NBA player data and performance statistics from 2012 to 2023 into a CSV file format, mounted it to the content drive, and loaded it into the project directory. From there, we filtered out the data that was unnecessary or would create noise for our analysis. Performing this first data collection step was a critical component of the data science testing process, as it allowed the following exploratory data analysis and hypothesis testing to run smoothly and accurately.
+
 ## Data Import and Statistical Methods
 
 ### Loading the Dataset
@@ -169,7 +174,7 @@ The analysis reveals relatively balanced player distribution across all 31 NBA t
 
 ## Exploratory Data Analysis (EDA)
 
-We formulated several hypotheses which we were curious about and ran what we felt were the most appropriate tests regarding each hypothesis.
+We formulated several hypotheses which we were curious about and ran what we felt were the most appropriate tests regarding each hypothesis. In this part of the data science process, we will run various types of hypothesis testing to verify whether or not our standard or null hypothesis should be rejected or not. To determine whether or not to reject a null hypothesis, we calculate a p-value and compare it against a pre-determined significance level, ɑ.
 
 ### 1. Hypothesis Testing: Chi-Squared Test on Shooting Efficiency and Player Court Time
 
