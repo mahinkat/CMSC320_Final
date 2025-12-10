@@ -4,6 +4,10 @@
 
 ---
 
+<img width="2048" height="1365" alt="image" src="https://github.com/user-attachments/assets/4aa157fd-f7c8-4f3d-bbb4-f44937e757c9" />
+
+---
+
 ## Contributions
 **A: Project Idea:**  
 Richeek, Jayden, Nathan, and Mahin decided to analyze an NBA dataset.
